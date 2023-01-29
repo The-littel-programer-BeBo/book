@@ -28,6 +28,30 @@ body{
   background-color: red;
   transition-property: width;
 }
+#list{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  position: absolute;
+  right:2vw;
+  top: 8vh;
+  font-size: 1vw;
+}
+#list input,#go{
+  width: 5vw;
+  height: 5vw;
+  font-size: 3em;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+#go{
+  color: #fff;
+  background-color: #f00;
+}
 .book{
   width: 80vw;
   height: 85vh;

@@ -10,7 +10,6 @@ function previousEvent(){
   
   progress.style.width = `${width-=step}%`
 
-  if(0 <= activePage && activePage < pages.length){
     activePage += 1
     pages[activePage].style.cssText += `
     transform:rotateY(0deg);
@@ -26,7 +25,6 @@ function previousEvent(){
       });
     }
     next.style.cssText=`visibility: visible;`
-  }
   previous.removeEventListener("click",previousEvent)
   pages[activePage].addEventListener('transitionend',_=>previous.addEventListener("click",previousEvent))
 }
@@ -55,7 +53,9 @@ function nextEvent(){
   pages[activePage].addEventListener('transitionend',_=>next.addEventListener("click",nextEvent))
 }
 
-// pages.forEach((page,i)=> {
-//   page.style.cssText = `
-//   z-index:${pages.length-i}`
-// });
+
+go.addEventListener('click',()=>{
+  for(i=1;i<=num.value;i++){
+    nextEvent()
+  }
+})
