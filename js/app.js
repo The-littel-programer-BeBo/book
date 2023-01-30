@@ -1,40 +1,19 @@
 const pages = document.querySelectorAll('.book .page')
 let activePage = pages.length-1
-const step = 100 / (pages.length-1)
-let width = 0;
+const step = 100 / pages.length
+let width = step;
+let leftPages = 0;
+let rightPages = pages.length;
+let active = pages[pages.length-1];
 
-progress.style.width = width;
+progress.style.width = width + '%';
 
-previous.addEventListener("click",previousEvent)
-function previousEvent(){
-  
-  progress.style.width = `${width-=step}%`
-
-    activePage += 1
-    pages[activePage].style.cssText += `
-    transform:rotateY(0deg);
-    z-index:${pages[activePage].style.zIndex}
-    `
-    setTimeout(_=>pages[activePage].style.cssText += `z-index:unset;`,400)
-
-    if(activePage == pages.length - 1){
-      previous.style.cssText=`visibility: hidden;`
-      pages.forEach((page,i)=> {
-        page.style.cssText += `
-        left:25%`
-      });
-    }
-    next.style.cssText=`visibility: visible;`
-  previous.removeEventListener("click",previousEvent)
-  pages[activePage].addEventListener('transitionend',_=>previous.addEventListener("click",previousEvent))
-}
-
+// next
 next.addEventListener("click",nextEvent)
 function nextEvent(){
-  
   progress.style.width = `${width+=step}%`
   
-  pages.forEach((page,i)=> {
+  pages.forEach((page)=> {
     page.style.left = '50%'
   });
 
@@ -51,11 +30,56 @@ function nextEvent(){
   previous.style.cssText=`visibility: visible;`
   next.removeEventListener("click",nextEvent)
   pages[activePage].addEventListener('transitionend',_=>next.addEventListener("click",nextEvent))
+
+  leftPages += 1
+  rightPages -= 1
+  active = pages[activePage]
 }
 
+// pervious
+previous.addEventListener("click",previousEvent)
+function previousEvent(){
+  setTimeout(_=>pages[activePage].style.cssText += `z-index:unset;`,250)
+  progress.style.width = `${width-=step}%`
+    activePage += 1
+    pages[activePage].style.cssText += `
+    transform:rotateY(0deg);
+    z-index:${pages[activePage].style.zIndex}
+    `
+    if(activePage == pages.length - 1){
+      previous.style.cssText=`visibility: hidden;`
+      pages.forEach((page,i)=> {
+        page.style.cssText += `
+        left:25%`
+      });
+    }
+    next.style.cssText=`visibility: visible;`
+  previous.removeEventListener("click",previousEvent)
+  pages[activePage].addEventListener('transitionend',_=>previous.addEventListener("click",previousEvent))
+  leftPages -= 1
+  rightPages += 1
+  active = pages[activePage]
+}
 
-go.addEventListener('click',()=>{
-  for(i=1;i<=num.value;i++){
-    nextEvent()
+let x = 0;
+for(i=pages.length-1;i>=0;i--){
+  pages[i].dataset.number = x
+  x++
+}
+num.setAttribute('max',pages.length-1)
+
+// go event
+go.addEventListener('click',e=>{
+  x = leftPages
+  if(num.value >= pages.length){
+    e.preventDefault()
+  }else if(leftPages < num.value){
+    for(i=0;i<num.value-x;i++){
+      nextEvent()
+    }
+  }else{
+    for(i=0;i<x-num.value;i++){
+      previousEvent()
+    }
   }
 })
