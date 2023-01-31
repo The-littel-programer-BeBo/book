@@ -66,6 +66,7 @@ button{
   align-items: center; */
   position: relative;
   perspective: 150vw;
+  transform-style: preserve-3d;
 }
 .page{
   width: fit-content;

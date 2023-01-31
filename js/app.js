@@ -18,10 +18,8 @@ function nextEvent(){
   });
 
   pages[activePage].style.cssText += `
-  transform:rotateY(-180deg);
-  z-index:${pages.length - activePage}
+  transform:rotateY(-${180-leftPages/10}deg);
   `
-
   activePage -= 1
   if(activePage == 0){
     next.style.cssText=`visibility: hidden;`
@@ -44,7 +42,6 @@ function previousEvent(){
     activePage += 1
     pages[activePage].style.cssText += `
     transform:rotateY(0deg);
-    z-index:${pages[activePage].style.zIndex}
     `
     if(activePage == pages.length - 1){
       previous.style.cssText=`visibility: hidden;`
